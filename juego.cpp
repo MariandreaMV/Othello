@@ -33,7 +33,6 @@ Juego::Juego(Casilla *tabC[TAM][TAM],int i,int j)
 int Juego::getMejorJugada()
 {
     MyLinkedList<int> puntajes3;
-//    Casilla *mejorCasilla= new Casilla();
     Casilla *tabC[TAM][TAM];
 
     for (int i = 0; i < TAM; i++) {
@@ -66,7 +65,7 @@ int Juego::getMejorJugada()
            }
         }
     }
-    puntajes3.imprimir();
+    //puntajes3.imprimir();
 
     int cont=0, posicion=0;
     int mayor=-9999,elemento;
@@ -80,22 +79,6 @@ int Juego::getMejorJugada()
     }
 
     return mayor;//solo me impora el numero mayor de negras que yo pueda tener en las n jugadas de esta opcion
-
-//    cout<<"mayor: "<<mayor<<" posicion: "<<posicion<<endl;
-//    int cont2=0;
-//    for(int i = 0; i < 8; i++) {
-//        for(int j = 0; j < 8; j++) {
-//           if(tabC[i][j]->isMovimientoPosible()){
-
-//               if(cont2==posicion){
-//                  mejorCasilla=getTablero(i,j);
-//                  cout<<"la mejor jugada de este ciclo es: "<<mejorCasilla->getColu()<<","<<mejorCasilla->getFila()<<endl;
-//                  return mejorCasilla;
-//               }
-//               conta2++;
-//            }
-//        }
-//     }
 
 }
 

@@ -43,35 +43,15 @@ void graphicsscene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) {
             paint();
             QGraphicsScene::mouseReleaseEvent(mouseEvent);
             if(opc==1){
-//                if(true){
-//                int seg=2;
-//                time_t t1,t2;
-//                  time(&t1);
-//                do
-//                      time(&t2);
-//                while ((int)t2-t1 < seg);
-//                }
                 Inteligencia *minMax = new Inteligencia(juego);
                 Casilla* ideal = minMax->mejorJugada();
                 if(ideal!=NULL){
                     x = ideal->getColu(); y =ideal->getFila();
                     juego->turno(y,x);
                     juego->cambiarTurnos();
-
-                    cout<<"jugo el juegador: "<<juego->getJugadorActual()<<endl;
-                    cout<<"tablero despues de jugar maquina y humano:"<<endl;
-                    for(int i = 0; i < 8; i++) {
-                            for(int j = 0; j < 8; j++) {
-                                int d =(juego->getTablero(i,j))->getEstado();
-                            cout << d<< " ";
-                        }
-                        cout << endl;
-                     }
-                      paint();
-                      QGraphicsScene::mouseReleaseEvent(mouseEvent);
+                    paint();
+                    QGraphicsScene::mouseReleaseEvent(mouseEvent);
                 }else cout<<"FIN DEL JUEGO"<<endl;
-
-
             }
 
         }
