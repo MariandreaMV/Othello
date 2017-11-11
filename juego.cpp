@@ -11,7 +11,6 @@ Juego::Juego() {
 
 }
 
-
 //------------------heuristica--------------------------
 
 Juego::Juego(Casilla *tabC[TAM][TAM],int i,int j)
@@ -84,7 +83,8 @@ int Juego::getMejorJugada()
 
 //---------------------------fin heuristica--------------
 
-void Juego::iniciarTablero () {
+void Juego::iniciarTablero()
+{
     int numCasilla = 0;
 
     // Iniciar el tablero
@@ -107,7 +107,8 @@ void Juego::iniciarTablero () {
     tablero[4][3]->setEstado(2);
 }
 
-void Juego::setMovimientosPosibles() {
+void Juego::setMovimientosPosibles()
+{
     bool enemigoEncontrado = false; // Si la piea enemiga es detectada
     movimientosPosibles = 0; 		// Cuantos movimientos posibles pueden ser hechos?
 
@@ -307,30 +308,8 @@ void Juego::setMovimientosPosibles() {
     }
 }
 
-void Juego::actualizarTablero() {
-    jugador1Puntos = jugador2Puntos = 0;
-
-    for (int i = 0; i < TAM; i++) {
-        for (int j = 0; j < TAM; j++) {
-
-            //implementar colores en la clase juego
-            //y actualizar segun sean
-
-            // Permitir que los posbles movimientos sean visibles o clickeables.. implementar
-            if(tablero[i][j]->isMovimientoPosible()) {
-
-                // Mostrar pistas..
-                if (pistas) {
-
-                } else {
-
-                }
-            }
-        }
-    }
-}
-
-void Juego::reiniciar() {
+void Juego::reiniciar()
+{
 
     // regresar a las casillas a sus valores por defecto
     for (int i = 0; i < TAM; i++) {
@@ -354,10 +333,10 @@ void Juego::reiniciar() {
 
     // Actualizar tablero..
     setMovimientosPosibles();
-    actualizarTablero();
 }
 
-void Juego::cambiarTurnos() {
+void Juego::cambiarTurnos()
+{
     if (jugadorActual == 1) {
         jugadorActual = 2;
     } else {
@@ -366,7 +345,8 @@ void Juego::cambiarTurnos() {
     setMovimientosPosibles();
 }
 
-void Juego::turno(int fila, int colu) {
+void Juego::turno(int fila, int colu)
+{
     bool enemigoEncontrado = false;
     int enemigo;
     if (jugadorActual == 1)
@@ -521,18 +501,17 @@ void Juego::turno(int fila, int colu) {
 }
 
 int Juego::getJugador1Puntos()
-{   jugador1Puntos=0;
+{
+    jugador1Puntos=0;
     jugador2Puntos=0;
-    for(int i = 0; i < 8; i++) {
-        for(int j = 0; j < 8; j++) {
-                if(tablero[i][j]->getEstado()==1){
-                   jugador1Puntos++;
-                }
-                if(tablero[i][j]->getEstado()==2){
-                   jugador2Puntos++;
-                }
+    for(int i = 0; i < TAM; i++) {
+        for(int j = 0; j < TAM; j++) {
+            if(tablero[i][j]->getEstado()==1)
+                jugador1Puntos++;
+            if(tablero[i][j]->getEstado()==2)
+                jugador2Puntos++;
         }
-     }
+    }
     return jugador1Puntos;
 }
 

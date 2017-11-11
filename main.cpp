@@ -6,52 +6,28 @@
 #include <QGraphicsView>
 #include <QPushButton>
 #include <QGraphicsProxyWidget>
+#include <QVBoxLayout>
+#include <QLayout>
 #include <iostream>
 #include <windows.h>
-#include "graphicsscene.h"
+#include "vista.h"
 #include "juego.h"
 
 using namespace std;
 
-void paint(Juego *juego, graphicsscene *scene);
+void paint(Juego *juego, Escena *scene);
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-
-    graphicsscene *scene = new graphicsscene();
-    QGraphicsView *view = new QGraphicsView();
-    scene->paint();
-
-    /*scene->juego->setMovimientosPosibles();
-    juego->actualizarTablero();
-    if(scene->is_clicked()) {
-        paint(juego,scene);
-        juego->turno(scene->get_last_y(), scene->get_last_x());
-        juego->cambiarTurnos();
-    }*/
-
-//    Tile *ficha1 = new Tile(0,600,600,64,64);
-  //  scene->addRect();
-    QPushButton *boton = new QPushButton();
-
-    boton->setText("Presioname");
-
-   // boton->setGeometry(QRect(520, 64, 40, 20));
-   // scene->addWidget(boton);
-//    QGraphicsProxyWidget *proxy = scene->addWidget(boton);
-
-    //scene->setSceneRect(0,0,64*8+64,64*8);
-    view->setFixedSize(64*10,64*8);
-    view->setScene(scene);
-    view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
-    view->show();
-
-
-
-
+    QLayout *caja = new QVBoxLayout();
+    Vista *view = new Vista();
+    caja->setMenuBar(view->barra);
+    caja->addWidget(view);
+    QWidget *mostrar = new QWidget();
+    mostrar->setLayout(caja);
+    mostrar->setFixedSize(64*11+25,64*8+45);
+    mostrar->show();
 
     return a.exec();
 }

@@ -22,7 +22,6 @@ class Juego {
         Juego();
         Juego(Casilla * tabC[8][8],int i,int j);
         void setMovimientosPosibles();
-        void actualizarTablero();
         void reiniciar();
         void cambiarTurnos();
         void turno(int fila, int colu);
