@@ -17,7 +17,8 @@ SOURCES += main.cpp \
     casilla.cpp \
     inteligencia.cpp \
     escena.cpp \
-    vista.cpp
+    vista.cpp \
+    mainwindow.cpp
 
 HEADERS  += \
     juego.h \
@@ -26,4 +27,8 @@ HEADERS  += \
     MyLinkedList.h \
     node.h \
     escena.h \
-    vista.h
+    vista.h \
+    mainwindow.h
+
+RESOURCES += \
+    resources.qrc

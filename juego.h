@@ -3,7 +3,6 @@
 #include "Casilla.h"
 #include "MyLinkedList.h"
 
-
 #define TAM 8
 
 class Juego {

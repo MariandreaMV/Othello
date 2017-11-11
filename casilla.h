@@ -25,10 +25,6 @@ class Casilla {
         void setPosicion(int _fila, int _colu);
         int getFila() { return fila; }
         int getColu() { return colu; }
-
-
 };
-
-
 
 #endif // CASILLA_H

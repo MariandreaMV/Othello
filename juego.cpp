@@ -66,7 +66,7 @@ int Juego::getMejorJugada()
     }
     //puntajes3.imprimir();
 
-    int cont=0, posicion=0;
+    int cont=0, posicion;
     int mayor=-9999,elemento;
     while(!puntajes3.isEmpty()){
         puntajes3.eliminar(elemento);
@@ -101,10 +101,10 @@ void Juego::iniciarTablero()
         }
     }
     // piezas iniciales
-    tablero[3][3]->setEstado(1);
-    tablero[4][4]->setEstado(1);
-    tablero[3][4]->setEstado(2);
-    tablero[4][3]->setEstado(2);
+    tablero[3][3]->setEstado(2);
+    tablero[4][4]->setEstado(2);
+    tablero[3][4]->setEstado(1);
+    tablero[4][3]->setEstado(1);
 }
 
 void Juego::setMovimientosPosibles()
@@ -326,10 +326,10 @@ void Juego::reiniciar()
     movimientosPosibles = 0;
 
     // Reiniciar las 4 casilals centrales
-    tablero[3][3]->setEstado(1);
-    tablero[4][4]->setEstado(1);
-    tablero[3][4]->setEstado(2);
-    tablero[4][3]->setEstado(2);
+    tablero[3][3]->setEstado(2);
+    tablero[4][4]->setEstado(2);
+    tablero[3][4]->setEstado(1);
+    tablero[4][3]->setEstado(1);
 
     // Actualizar tablero..
     setMovimientosPosibles();

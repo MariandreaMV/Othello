@@ -1,7 +1,7 @@
 #ifndef INTELIGENCIA_H
 #define INTELIGENCIA_H
-#include "juego.h"
 #include <iostream>
+#include "juego.h"
 using namespace std;
 
 class Inteligencia
