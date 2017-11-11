@@ -368,15 +368,12 @@ void Juego::cambiarTurnos() {
 
 void Juego::turno(int fila, int colu) {
     bool enemigoEncontrado = false;
-    cout<<"entro a turno con fila: "<<fila<<" y columna: "<<colu<<endl;
     int enemigo;
     if (jugadorActual == 1)
         enemigo = 2;
     else
         enemigo = 1;
 
-    cout<<"jugador actual: "<<jugadorActual<<endl;
-    cout<<"enemigo: "<<enemigo<<endl;
     enemigoEncontrado = false;
 
     for (int k = colu - 1; k >= 0; k--) {
