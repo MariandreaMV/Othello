@@ -29,6 +29,3 @@ HEADERS  += \
     escena.h \
     vista.h \
     mainwindow.h
-
-RESOURCES += \
-    resources.qrc
