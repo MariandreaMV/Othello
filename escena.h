@@ -2,12 +2,8 @@
 #define ESCENA_H
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
-#include <QDebug>
 #include <QGraphicsTextItem>
 #include <QFont>
-#include <iostream>
-#include <conio.h>
-#include <windows.h>
 #include "inteligencia.h"
 #include "juego.h"
 
@@ -18,6 +14,8 @@ private:
     int x;
     int y;
     int opc;
+    int dificultad;
+
     QGraphicsTextItem *puntos_texto;
     QGraphicsTextItem *puntos_jugador1;
     QGraphicsTextItem *puntos_jugador2;
@@ -27,6 +25,8 @@ public:
 
     Escena(QObject *parent = 0);
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent);
+    void setOpc(int o) { opc = o; }
+    void setDificultad(int o) { dificultad = o; }
     void reiniciar();
     void actualizar();
 
