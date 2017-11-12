@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     mostrar->setLayout(caja);
     mostrar->setFixedSize(64*11+25,64*8+45);
-    setWindowIcon(QIcon(":/Imagen/logo.png"));
+
 }
 
 void MainWindow::show()

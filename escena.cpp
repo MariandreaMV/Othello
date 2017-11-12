@@ -11,39 +11,68 @@ Escena::Escena(QObject *parent) :
 
     fuente.setPixelSize(35);
     fuente.setBold(true);
-    fuente.setFamily("Terminal");
+    fuente.setFamily("Fixedsys");
+    fuente2.setPixelSize(25);
+    fuente2.setBold(true);
+    fuente2.setFamily("Fixedsys");
 
     puntos_texto = new QGraphicsTextItem;
-    puntos_jugador1 = new QGraphicsTextItem;
-    puntos_jugador2 = new QGraphicsTextItem;
     puntos_texto->setFont(fuente);
-    puntos_jugador1->setFont(fuente);
-    puntos_jugador2->setFont(fuente);
-    puntos_texto->setPos(520,70);
-    puntos_jugador1->setPos(520, 150);
-    puntos_jugador2->setPos(520, 250);
+    puntos_texto->setPos(520,20);
     puntos_texto->setPlainText("Puntos: ");
+    puntos_texto->setDefaultTextColor(Qt::green);
+
+    puntos_jugador1 = new QGraphicsTextItem;
+    puntos_jugador1->setFont(fuente);
+    puntos_jugador1->setPos(520, 80);
     puntos_jugador1->setPlainText("J1: " + QString::number(juego->getJugador1Puntos()));
+    puntos_jugador1->setDefaultTextColor(Qt::black);
+
+    puntos_jugador2 = new QGraphicsTextItem;
+    puntos_jugador2->setFont(fuente);
+    puntos_jugador2->setPos(520, 130);
     if(opc==1)
         puntos_jugador2->setPlainText("PC: " + QString::number(juego->getJugador2Puntos()));
     else
         puntos_jugador2->setPlainText("J2: " + QString::number(juego->getJugador2Puntos()));
+    puntos_jugador2->setDefaultTextColor(Qt::white);
+
+    turno_jugador = new QGraphicsTextItem;
+    turno_jugador->setFont(fuente2);
+    turno_jugador->setPos(520,215);
+    turno_jugador->setPlainText("Turno: ");
+
+    jugadas_mostrar = new QGraphicsTextItem;
+    jugadas_mostrar->setFont(fuente2);
+    jugadas_mostrar->setPos(520, 300);
+    jugadas_mostrar->setDefaultTextColor(Qt::red);
+
+    if (juego->getJugadorActual() == 1) {
+        turno_jugador->setDefaultTextColor(Qt::black);
+        this->addEllipse(630,220,32,32,QPen(Qt::black), QBrush(Qt::black));
+    } else {
+        turno_jugador->setDefaultTextColor(Qt::white);
+        this->addEllipse(630,220,32,32,QPen(Qt::white), QBrush(Qt::white));
+    }
+
 
     this->addItem(puntos_texto);
     this->addItem(puntos_jugador1);
     this->addItem(puntos_jugador2);
+    this->addItem(turno_jugador);
+    this->addItem(jugadas_mostrar);
 
     this->setBackgroundBrush(Qt::gray);
 }
 
 void Escena::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) {
 
+    jugadas_mostrar->setPlainText("");
+
     if (mouseEvent->scenePos().x() <= 64*8 && mouseEvent->scenePos().x()>=0) {
         if (mouseEvent->scenePos().y() <= 64*8 && mouseEvent->scenePos().y()>=0) {
-            //qDebug() << Q_FUNC_INFO << mouseEvent->scenePos();
             x = mouseEvent->scenePos().x()/64;
             y = mouseEvent->scenePos().y()/64;
-
             //----------------- si donde jugo es posible el movimiento-----------//
             if(juego->getTablero(y,x)->isMovimientoPosible()){
                 juego->turno(y, x);
@@ -66,7 +95,7 @@ void Escena::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) {
                 }
             } else {
                 //---------mostrar en pantalla que es bruto y jugo donde no puede---------//
-                cout<<"jugada invalida"<<endl;
+                jugadas_mostrar->setPlainText("JUGADA \nINVALIDA");
             }
             //-------------compruebo que tenga uno de los dos donde jugar, si no se ahogo el juego--------------//
                 bool JuegoAhogado=false;
@@ -77,7 +106,7 @@ void Escena::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) {
                         juego->cambiarTurnos();
                     } else {
                         juego->cambiarTurnos();
-                        cout<<"el jugador: "<<juego->getJugadorActual()<<"no tiene donde jugar, entonces cede puesto al siguiente"<<endl;
+                        jugadas_mostrar->setPlainText("Jugador \npasa turno");
                         juego->cambiarTurnos();
                         if (opc == 1 && juego->getJugadorActual() == 2) {//si esta jugando con la maquina entonces ella juega otra vez.
                             if (dificultad == 2) {
@@ -96,7 +125,16 @@ void Escena::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) {
                 }
                 if(JuegoAhogado){
                     //--------------------mostrar que se tranco el juego---------------------//
-                    cout<<"JUEGO AHOGADO"<<endl;
+                    if (juego->getJugador1Puntos() > juego->getJugador2Puntos())
+                        jugadas_mostrar->setPlainText("GANA J1");
+                    else if (juego->getJugador1Puntos() == juego->getJugador2Puntos())
+                        jugadas_mostrar->setPlainText("EMPATE");
+                    else {
+                        if (opc == 1)
+                            jugadas_mostrar->setPlainText("GANA PC");
+                        else
+                            jugadas_mostrar->setPlainText("GANA J2");
+                    }
                 }
         }
     }
@@ -115,10 +153,13 @@ void Escena::reiniciar()
         puntos_jugador2->setPlainText("PC: " + QString::number(juego->getJugador2Puntos()));
     else
         puntos_jugador2->setPlainText("J2: " + QString::number(juego->getJugador2Puntos()));
+
+    jugadas_mostrar->setPlainText("");
 }
 
 void Escena::actualizar()
 {
+
     int x = 0, y = 0;
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
@@ -140,6 +181,13 @@ void Escena::actualizar()
         }
         x=0;
         y+=64;
+    }
+    if (juego->getJugadorActual() == 1) {
+        turno_jugador->setDefaultTextColor(Qt::black);
+        this->addEllipse(630,220,32,32,QPen(Qt::black), QBrush(Qt::black));
+    } else {
+        turno_jugador->setDefaultTextColor(Qt::white);
+        this->addEllipse(630,220,32,32,QPen(Qt::white), QBrush(Qt::white));
     }
 
 }

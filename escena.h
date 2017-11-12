@@ -19,7 +19,10 @@ private:
     QGraphicsTextItem *puntos_texto;
     QGraphicsTextItem *puntos_jugador1;
     QGraphicsTextItem *puntos_jugador2;
+    QGraphicsTextItem *turno_jugador;
+    QGraphicsTextItem *jugadas_mostrar;
     QFont fuente;
+    QFont fuente2;
 public:
     Juego *juego;
 

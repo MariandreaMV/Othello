@@ -1,5 +1,7 @@
 #include "vista.h"
 
+#include <QFontDatabase>
+
 Vista::Vista()
 {
     crearAcciones();
@@ -16,14 +18,12 @@ Vista::Vista()
 
     fuente.setPixelSize(12);
     fuente.setBold(true);
-    fuente.setFamily("Terminal");
+    fuente.setFamily("Arial");
 
     infor.setFont(fuente);
-    infor.setText(tr("Hecho por:\n\nPedro Labrador \t\tCI: 25587776\nMariandrea Maldonado \tCI: 24693522\n\nProyecto Estructura de datos 2017"));
-
-
-
-
+    infor.setText(tr("Hecho por:\n\nMariandrea Maldonado \tCI: 24693522\t\n"
+                     "Pedro Labrador \t\tCI: 25587776\n\n"
+                     "Proyecto Estructura de datos 2017"));
 }
 
 void Vista::crearAcciones()
@@ -91,7 +91,7 @@ void Vista::crearMenus()
 void Vista::slotNuevoJuego()
 {
     scene->juego->reiniciar();
-    scene->actualizar();
+    scene->reiniciar();
 }
 
 void Vista::slotCerrarJuego()
