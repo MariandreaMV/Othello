@@ -19,11 +19,6 @@ Vista::Vista()
     fuente.setPixelSize(12);
     fuente.setBold(true);
     fuente.setFamily("Arial");
-
-    infor.setFont(fuente);
-    infor.setText(tr("Hecho por:\n\nMariandrea Maldonado \tCI: 24693522\t\n"
-                     "Pedro Labrador \t\tCI: 25587776\n\n"
-                     "Proyecto Estructura de datos 2017"));
 }
 
 void Vista::crearAcciones()
@@ -39,21 +34,24 @@ void Vista::crearAcciones()
     connect(pistas, &QAction::triggered, this, &Vista::slotPistas);
 
     salir = new QAction(tr("S&alir"), this);
-    salir->setShortcuts(QKeySequence::Quit);
+    salir->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_W));
     salir->setStatusTip(tr("Salir del juego"));
     connect(salir, &QAction::triggered, this, &Vista::slotCerrarJuego);
 
 
 
     jugador_v_jugador = new QAction(tr("Jugador vs &Jugador"), this);
+    jugador_v_jugador->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_J));
     jugador_v_jugador->setStatusTip("Juega contra otra persona");
     connect(jugador_v_jugador, &QAction::triggered, this, &Vista::slotJugadorvJugador);
 
     ia_facil = new QAction(tr("&Facil"), this);
+    ia_facil->setShortcut(QKeySequence::Find);
     ia_facil->setStatusTip("Juega contra una inteligencia artificial facil");
     connect(ia_facil, &QAction::triggered, this, &Vista::slotIaFacil);
 
     ia_dificil = new QAction(tr("&Dificil"), this);
+    ia_dificil->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_D));
     ia_dificil->setStatusTip("Juega contra una inteligencia artificial dificil");
     connect(ia_dificil, &QAction::triggered, this, &Vista::slotIaDificil);
 
@@ -146,7 +144,9 @@ void Vista::slotPistas()
 
 void Vista::slotAcercade()
 {
+    infor.setFont(fuente);
+    infor.setText(tr("Hecho por:\n\nMariandrea Maldonado \tCI: 24693522\t\n"
+                     "Pedro Labrador \t\tCI: 25587776\n\n"
+                     "Proyecto Estructura de datos 2017"));
     infor.show();
-//QMessageBox::about(this, tr("Acerca de Othello"), tr("Hecho por:\n\nPedro Labrador \t\tCI: 25587776\nMariandrea Maldonado \tCI: 24693522\n\nProyecto Estructura de datos 2017"));
-
 }
