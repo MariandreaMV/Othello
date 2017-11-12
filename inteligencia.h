@@ -16,7 +16,7 @@ public:
     Inteligencia();
     Inteligencia(Juego *ju);
     Casilla* mejorJugada();
-    Casilla* mejorJugadaRandom();
+    Casilla* jugadaRandom();
 };
 
 #endif // INTELIGENCIA_H

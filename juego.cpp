@@ -66,19 +66,17 @@ int Juego::getMejorJugada()
     }
     //puntajes3.imprimir();
 
-    int cont=0, posicion;
+    int cont=0;
     int mayor=-9999,elemento;
     while(!puntajes3.isEmpty()){
         puntajes3.eliminar(elemento);
         if(elemento>mayor){
             mayor=elemento;
-           posicion=cont;
         }
        cont++;
     }
 
     return mayor;//solo me impora el numero mayor de negras que yo pueda tener en las n jugadas de esta opcion
-
 }
 
 //---------------------------fin heuristica--------------
@@ -106,6 +104,7 @@ void Juego::iniciarTablero()
     tablero[3][4]->setEstado(1);
     tablero[4][3]->setEstado(1);
 }
+
 
 void Juego::setMovimientosPosibles()
 {

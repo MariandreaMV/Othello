@@ -78,15 +78,14 @@ void Escena::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) {
             if(juego->getTablero(y,x)->isMovimientoPosible()){
                 juego->turno(y, x);
                 juego->cambiarTurnos();
-                //opcion de jugar vs maquina
                 actualizar();
                 QGraphicsScene::mouseReleaseEvent(mouseEvent);
                 if (opc == 1&& juego->getJugadorActual()==2){
 
-                    Inteligencia *minMax = new Inteligencia(juego);
-                    Casilla* ideal;
-                    if (dificultad == 2) ideal = minMax->mejorJugada();
-                    if (dificultad == 1) ideal = minMax->mejorJugadaRandom();
+                        Inteligencia *minMax = new Inteligencia(juego);
+                        Casilla* ideal;
+                         if (dificultad == 2) ideal = minMax->mejorJugada();
+                         if(dificultad == 1) ideal = minMax->jugadaRandom();
                         if(ideal!=NULL){
                             x = ideal->getColu(); y =ideal->getFila();
                             juego->turno(y,x);
@@ -105,7 +104,7 @@ void Escena::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) {
                 jugadas_mostrar->setPlainText("JUGADA \nINVALIDA");
             }
             //-------------compruebo que tenga uno de los dos donde jugar, si no se ahogo el juego--------------//
-                bool JuegoAhogado=false;
+                bool JuegoAhogado = false;
                 if (juego->getMovimientosPosibles()==0){
                     juego->cambiarTurnos();
                     if (juego->getMovimientosPosibles()==0){
@@ -118,7 +117,7 @@ void Escena::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) {
                                 Inteligencia *minMax = new Inteligencia(juego);
                                 Casilla* ideal;
                                 if (dificultad == 2) ideal = minMax->mejorJugada();
-                                if (dificultad == 1) ideal = minMax->mejorJugadaRandom();
+                                if (dificultad == 1) ideal = minMax->jugadaRandom();
                                 if(ideal!=NULL){
                                     x = ideal->getColu(); y =ideal->getFila();
                                     juego->turno(y,x);

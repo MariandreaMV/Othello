@@ -12,8 +12,8 @@ class Juego {
         int jugadorActual; 			// De quien es el turno
         int movimientosPosibles; 	// Cuantos movimientos posibles hay para el jugador actual?
         bool pistas;
-
         void iniciarTablero();
+
     public:
         Casilla *tablero[8][8];
         Casilla *tabCopia[TAM][TAM];
