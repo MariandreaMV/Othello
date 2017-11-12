@@ -29,3 +29,5 @@ HEADERS  += \
     escena.h \
     vista.h \
     mainwindow.h
+
+RC_ICONS = Imagen/icon.ico
