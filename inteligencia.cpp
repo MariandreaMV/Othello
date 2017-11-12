@@ -46,13 +46,16 @@ Casilla *Inteligencia::mejorJugada()
             }
              cont++;
         }
+
         delete max;
+
         int cont2=0;
         for(int i = 0; i < 8; i++) {
           for(int j = 0; j < 8; j++) {
             if(tablero[i][j]->isMovimientoPosible()){
                if(cont2==posicion){
                 mejor_casilla=tablero[i][j];
+                delete tablero;
                 return mejor_casilla;
                }
                cont2++;
