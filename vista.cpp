@@ -116,7 +116,7 @@ void Vista::slotIaFacil()
     ia_facil->setEnabled(false);
     ia_dificil->setEnabled(true);
     scene->setOpc(1);
-    scene->setDificultad(2); // cambiar el 2 por otro numero cuando se implemente la ia facil o dificil..
+    scene->setDificultad(1);
     scene->juego->reiniciar();
     scene->reiniciar();
 }
@@ -127,7 +127,7 @@ void Vista::slotIaDificil()
     ia_dificil->setEnabled(false);
     ia_facil->setEnabled(true);
     scene->setOpc(1);
-    scene->setDificultad(2); // cambiar el 2 por otro numero cuando se implemente la ia facil o dificil..
+    scene->setDificultad(2);
     scene->juego->reiniciar();
     scene->reiniciar();
 }

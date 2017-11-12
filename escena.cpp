@@ -69,6 +69,7 @@ void Escena::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) {
 
     jugadas_mostrar->setPlainText("");
 
+
     if (mouseEvent->scenePos().x() <= 64*8 && mouseEvent->scenePos().x()>=0) {
         if (mouseEvent->scenePos().y() <= 64*8 && mouseEvent->scenePos().y()>=0) {
             x = mouseEvent->scenePos().x()/64;
@@ -80,21 +81,27 @@ void Escena::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) {
                 //opcion de jugar vs maquina
                 actualizar();
                 QGraphicsScene::mouseReleaseEvent(mouseEvent);
-                if (opc == 1){
-                    if (dificultad == 2) {
-                        Inteligencia *minMax = new Inteligencia(juego);
-                        Casilla* ideal = minMax->mejorJugada();
+                if (opc == 1&& juego->getJugadorActual()==2){
+
+                    Inteligencia *minMax = new Inteligencia(juego);
+                    Casilla* ideal;
+                    if (dificultad == 2) ideal = minMax->mejorJugada();
+                    if (dificultad == 1) ideal = minMax->mejorJugadaRandom();
                         if(ideal!=NULL){
                             x = ideal->getColu(); y =ideal->getFila();
                             juego->turno(y,x);
                             juego->cambiarTurnos();
                             actualizar();
                             QGraphicsScene::mouseReleaseEvent(mouseEvent);
+                        }else{//maquina no tiene donde jugar
+                            jugadas_mostrar->setPlainText("PC sede\nturno");
+                            juego->cambiarTurnos();
                         }
-                    } //implementar facil. o dificil como sea...
+                        delete ideal;
+                        delete minMax;
+
                 }
             } else {
-                //---------mostrar en pantalla que es bruto y jugo donde no puede---------//
                 jugadas_mostrar->setPlainText("JUGADA \nINVALIDA");
             }
             //-------------compruebo que tenga uno de los dos donde jugar, si no se ahogo el juego--------------//
@@ -105,13 +112,13 @@ void Escena::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) {
                         JuegoAhogado = true;
                         juego->cambiarTurnos();
                     } else {
-                        juego->cambiarTurnos();
                         jugadas_mostrar->setPlainText("Jugador \npasa turno");
-                        juego->cambiarTurnos();
                         if (opc == 1 && juego->getJugadorActual() == 2) {//si esta jugando con la maquina entonces ella juega otra vez.
-                            if (dificultad == 2) {
+
                                 Inteligencia *minMax = new Inteligencia(juego);
-                                Casilla* ideal = minMax->mejorJugada();
+                                Casilla* ideal;
+                                if (dificultad == 2) ideal = minMax->mejorJugada();
+                                if (dificultad == 1) ideal = minMax->mejorJugadaRandom();
                                 if(ideal!=NULL){
                                     x = ideal->getColu(); y =ideal->getFila();
                                     juego->turno(y,x);
@@ -119,12 +126,13 @@ void Escena::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) {
                                     actualizar();
                                     QGraphicsScene::mouseReleaseEvent(mouseEvent);
                                 }
-                            } // implementar la facil o la dificil :v
+                                delete ideal;
+                                delete minMax;
+
                         }
                     }
                 }
                 if(JuegoAhogado){
-                    //--------------------mostrar que se tranco el juego---------------------//
                     if (juego->getJugador1Puntos() > juego->getJugador2Puntos())
                         jugadas_mostrar->setPlainText("GANA J1");
                     else if (juego->getJugador1Puntos() == juego->getJugador2Puntos())
@@ -138,6 +146,7 @@ void Escena::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) {
                 }
         }
     }
+
     puntos_jugador1->setPlainText("J1: " + QString::number(juego->getJugador1Puntos()));
     if(opc==1)
         puntos_jugador2->setPlainText("PC: " + QString::number(juego->getJugador2Puntos()));

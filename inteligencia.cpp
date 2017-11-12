@@ -24,28 +24,29 @@ Inteligencia::Inteligencia(Juego *juego)
 Casilla *Inteligencia::mejorJugada()
 {
     Casilla *mejor_casilla= new Casilla();
-    MyLinkedList<int> max;
+    MyLinkedList<int> *max=new MyLinkedList<int>;
     if(hayMovimientosPosibles!=0){
         for(int i = 0; i < 8; i++) {
                 for(int j = 0; j < 8; j++) {
                     if(tablero[i][j]->isMovimientoPosible()){
                         Juego *evaluacion = new Juego(tablero,i,j);
-                        max.agregar(evaluacion->getMejorJugada());
+                        max->agregar(evaluacion->getMejorJugada());
+                        delete evaluacion;
                     }
             }
          }
 
         int cont=0, posicion=0;
         int mayor=-9999,elemento;
-        while(!max.isEmpty()){
-            max.eliminar(elemento);
+        while(!max->isEmpty()){
+            max->eliminar(elemento);
             if(elemento>mayor){
                 mayor=elemento;
                posicion=cont;
             }
              cont++;
         }
-
+        delete max;
         int cont2=0;
         for(int i = 0; i < 8; i++) {
           for(int j = 0; j < 8; j++) {
@@ -59,7 +60,36 @@ Casilla *Inteligencia::mejorJugada()
           }
         }
     }else
-        mejor_casilla=NULL;
+        mejor_casilla=NULL;//si no hay jugadas
+
+    return mejor_casilla;
+}
+
+
+
+Casilla *Inteligencia::mejorJugadaRandom()
+{
+    int num, c=0;
+    srand(time(NULL));
+    num = 0 + rand() % (hayMovimientosPosibles);
+    Casilla *mejor_casilla= new Casilla();
+    cout<<"posibles jugadas: "<<hayMovimientosPosibles<<" random: "<<num<<endl;
+    if(hayMovimientosPosibles!=0){
+        for(int i = 0; i < 8; i++) {
+                for(int j = 0; j < 8; j++) {
+                    if(tablero[i][j]->isMovimientoPosible()){
+                       cout<<c<<endl;
+                        if(c==num){
+                          mejor_casilla=tablero[i][j];
+                          cout<<"encontrada"<<endl;
+                          return mejor_casilla;
+                        }
+                       c++;
+                    }
+                }
+         }
+    }
+    mejor_casilla= NULL;//si no hay jugadas
 
     return mejor_casilla;
 }
