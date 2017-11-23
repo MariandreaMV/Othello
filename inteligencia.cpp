@@ -16,6 +16,7 @@ Inteligencia::Inteligencia(Juego *juego)
                 tablero[i][j]->setMovimientoPosible(juego->getTablero(i,j)->isMovimientoPosible());
                 tablero[i][j]->setPosicion(juego->getTablero(i,j)->getFila(),juego->getTablero(i,j)->getColu());
                 tablero[i][j]->setID(juego->getTablero(i,j)->getID());
+
             }
      }
 
@@ -71,6 +72,17 @@ Casilla *Inteligencia::jugadaRandom()
     Casilla *mejor_casilla= new Casilla();
     int num;
     srand(time(NULL));
+    int cont=0;
+
+    for (int i = 0; i < TAM; i++) {
+            for (int j = 0; j < TAM; j++) {
+                if(tablero[i][j]->isMovimientoPosible()) cont++;
+
+            }
+     }
+
+    hayMovimientosPosibles=cont;
+
     num = 0 + rand() % (hayMovimientosPosibles);
     cout<<"mov posibles: "<<hayMovimientosPosibles<<" random: "<<num<<endl;
     if(hayMovimientosPosibles!=0){

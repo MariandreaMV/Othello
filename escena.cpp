@@ -56,6 +56,14 @@ Escena::Escena(QObject *parent) :
     }
 
 
+
+    for (int i = 0; i < TAM; i++) {
+            for (int j = 0; j < TAM; j++) {
+                tableroAnterior[i][j] = new Casilla();
+            }
+     }
+
+
     this->addItem(puntos_texto);
     this->addItem(puntos_jugador1);
     this->addItem(puntos_jugador2);
@@ -120,8 +128,8 @@ void Escena::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) {
                         if(juego->getMovimientosPosibles()!=0){
                             Inteligencia *minMax = new Inteligencia(juego);
                             Casilla* ideal;
-                            if(dificultad == 2) ideal = minMax->mejorJugada();//juega la inteligencia dificil
                             if(dificultad == 1) ideal = minMax->jugadaRandom();//juega la inteligencia random
+                            if(dificultad == 2) ideal = minMax->mejorJugada();//juega la inteligencia dificil
                             if(ideal!=NULL){
                               x = ideal->getColu(); y =ideal->getFila();
                               juego->turno(y,x);
@@ -133,8 +141,6 @@ void Escena::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) {
                             jugadas_mostrar->setPlainText("PC sede\nturno");
                             juego->cambiarTurnos();
                         }
-                        actualizar();
-                        QGraphicsScene::mouseReleaseEvent(mouseEvent);
 
                         if (juego->getMovimientosPosibles()==0){
                             juego->cambiarTurnos();
@@ -148,6 +154,19 @@ void Escena::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) {
                             }
                         }
 
+                        actualizar();
+                        QGraphicsScene::mouseReleaseEvent(mouseEvent);
+
+                    }
+                }
+
+                if(!JuegoAhogado){
+                    for (int i = 0; i < TAM; i++) {
+                            for (int j = 0; j < TAM; j++) {
+                                if(juego->getTablero(i,j)->getEstado()!=0)
+                                   JuegoAhogado=true;
+                                else JuegoAhogado=false;
+                            }
                     }
                 }
                 if(JuegoAhogado){
@@ -162,7 +181,6 @@ void Escena::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) {
                              jugadas_mostrar->setPlainText("GANA J2");
                        }
                }
-
           }else jugadas_mostrar->setPlainText("JUGADA \nINVALIDA");
         }
     }
@@ -172,6 +190,20 @@ void Escena::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) {
         puntos_jugador2->setPlainText("PC: " + QString::number(juego->getJugador2Puntos()));
     else
         puntos_jugador2->setPlainText("J2: " + QString::number(juego->getJugador2Puntos()));
+
+
+    //------------------GUARDA EN EL TABLERO ANTERIOR-------------------------------//
+    for (int i = 0; i < TAM; i++) {
+            for (int j = 0; j < TAM; j++) {
+                tableroAnterior[i][j] = new Casilla();
+                tableroAnterior[i][j]->setEstado(juego->getTablero(i,j)->getEstado());
+                tableroAnterior[i][j]->setMovimientoPosible(juego->getTablero(i,j)->isMovimientoPosible());
+                tableroAnterior[i][j]->setPosicion(juego->getTablero(i,j)->getFila(),juego->getTablero(i,j)->getColu());
+                tableroAnterior[i][j]->setID(juego->getTablero(i,j)->getID());
+            }
+
+     }
+
 }
 
 void Escena::reiniciar()

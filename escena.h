@@ -15,6 +15,7 @@ private:
     int y;
     int opc;
     int dificultad;
+    Casilla *tableroAnterior[TAM][TAM];
 
     QGraphicsTextItem *puntos_texto;
     QGraphicsTextItem *puntos_jugador1;
