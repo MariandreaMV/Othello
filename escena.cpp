@@ -68,7 +68,7 @@ Escena::Escena(QObject *parent) :
 void Escena::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) {
 
     jugadas_mostrar->setPlainText("");
-
+    bool JuegoAhogado = false;
 
     if (mouseEvent->scenePos().x() <= 64*8 && mouseEvent->scenePos().x()>=0) {
         if (mouseEvent->scenePos().y() <= 64*8 && mouseEvent->scenePos().y()>=0) {
@@ -76,73 +76,94 @@ void Escena::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) {
             y = mouseEvent->scenePos().y()/64;
             //----------------- si donde jugo es posible el movimiento-----------//
             if(juego->getTablero(y,x)->isMovimientoPosible()){
-                juego->turno(y, x);
-                juego->cambiarTurnos();
-                actualizar();
-                QGraphicsScene::mouseReleaseEvent(mouseEvent);
-                if (opc == 1&& juego->getJugadorActual()==2){
 
-                        Inteligencia *minMax = new Inteligencia(juego);
-                        Casilla* ideal;
-                         if (dificultad == 2) ideal = minMax->mejorJugada();
-                         if(dificultad == 1) ideal = minMax->jugadaRandom();
-                        if(ideal!=NULL){
-                            x = ideal->getColu(); y =ideal->getFila();
-                            juego->turno(y,x);
+
+            //-----------JUEGAN HUMANO VS HUMANO.-----------------------//
+                if(opc!=1){
+                    juego->turno(y, x);
+                    juego->cambiarTurnos();
+                    actualizar();
+                    QGraphicsScene::mouseReleaseEvent(mouseEvent);
+
+                     if (juego->getMovimientosPosibles()==0){
+                         juego->cambiarTurnos();
+                         if (juego->getMovimientosPosibles()==0){
+                             JuegoAhogado = true;
+                         }else{
+                             actualizar();
+                             QGraphicsScene::mouseReleaseEvent(mouseEvent);
+                             if(juego->getJugadorActual()==1)jugadas_mostrar->setPlainText("J1\npasa turno");
+                             else jugadas_mostrar->setPlainText("J2\npasa turno");
+                         }
+                     }
+           //--------------FIN HUMANO VS HUMANO-------------------------//
+
+                }else{
+                    //----------------JUEGAN HUMANO VS MAQUINA----------//
+                    if(juego->getJugadorActual()==1){//juega humano
+
+                        if(juego->getMovimientosPosibles()!=0){
+                            juego->turno(y, x);
                             juego->cambiarTurnos();
                             actualizar();
                             QGraphicsScene::mouseReleaseEvent(mouseEvent);
+                        }else {
+                            juego->cambiarTurnos();
+                            actualizar();
+                            QGraphicsScene::mouseReleaseEvent(mouseEvent);
+                            jugadas_mostrar->setPlainText("Jugador \npasa turno");
+
+                        }
+                    }
+                    if(juego->getJugadorActual()==2){//juega maquina
+
+                        if(juego->getMovimientosPosibles()!=0){
+                            Inteligencia *minMax = new Inteligencia(juego);
+                            Casilla* ideal;
+                            if(dificultad == 2) ideal = minMax->mejorJugada();//juega la inteligencia dificil
+                            if(dificultad == 1) ideal = minMax->jugadaRandom();//juega la inteligencia random
+                            if(ideal!=NULL){
+                              x = ideal->getColu(); y =ideal->getFila();
+                              juego->turno(y,x);
+                              juego->cambiarTurnos();
+                               delete ideal;
+                            }
+                              delete minMax;
                         }else{//maquina no tiene donde jugar
                             jugadas_mostrar->setPlainText("PC sede\nturno");
                             juego->cambiarTurnos();
                         }
-                        delete ideal;
-                        delete minMax;
+                        actualizar();
+                        QGraphicsScene::mouseReleaseEvent(mouseEvent);
 
-                }
-            } else {
-                jugadas_mostrar->setPlainText("JUGADA \nINVALIDA");
-            }
-            //-------------compruebo que tenga uno de los dos donde jugar, si no se ahogo el juego--------------//
-                bool JuegoAhogado = false;
-                if (juego->getMovimientosPosibles()==0){
-                    juego->cambiarTurnos();
-                    if (juego->getMovimientosPosibles()==0){
-                        JuegoAhogado = true;
-                        juego->cambiarTurnos();
-                    } else {
-                        jugadas_mostrar->setPlainText("Jugador \npasa turno");
-                        if (opc == 1 && juego->getJugadorActual() == 2) {//si esta jugando con la maquina entonces ella juega otra vez.
-
-                                Inteligencia *minMax = new Inteligencia(juego);
-                                Casilla* ideal;
-                                if (dificultad == 2) ideal = minMax->mejorJugada();
-                                if (dificultad == 1) ideal = minMax->jugadaRandom();
-                                if(ideal!=NULL){
-                                    x = ideal->getColu(); y =ideal->getFila();
-                                    juego->turno(y,x);
-                                    juego->cambiarTurnos();
-                                    actualizar();
-                                    QGraphicsScene::mouseReleaseEvent(mouseEvent);
-                                }
-                                delete ideal;
-                                delete minMax;
-
+                        if (juego->getMovimientosPosibles()==0){
+                            juego->cambiarTurnos();
+                            if (juego->getMovimientosPosibles()==0){
+                                JuegoAhogado = true;
+                            }else{
+                                actualizar();
+                                QGraphicsScene::mouseReleaseEvent(mouseEvent);
+                                if(juego->getJugadorActual()==1)jugadas_mostrar->setPlainText("J1\nsede turno");
+                                else jugadas_mostrar->setPlainText("PC\nsede turno");
+                            }
                         }
+
                     }
                 }
                 if(JuegoAhogado){
-                    if (juego->getJugador1Puntos() > juego->getJugador2Puntos())
-                        jugadas_mostrar->setPlainText("GANA J1");
-                    else if (juego->getJugador1Puntos() == juego->getJugador2Puntos())
-                        jugadas_mostrar->setPlainText("EMPATE");
-                    else {
-                        if (opc == 1)
-                            jugadas_mostrar->setPlainText("GANA PC");
-                        else
-                            jugadas_mostrar->setPlainText("GANA J2");
-                    }
-                }
+                  if (juego->getJugador1Puntos() > juego->getJugador2Puntos())
+                       jugadas_mostrar->setPlainText("GANA J1");
+                  else if (juego->getJugador1Puntos() == juego->getJugador2Puntos())
+                       jugadas_mostrar->setPlainText("EMPATE");
+                       else {
+                          if (opc == 1)
+                             jugadas_mostrar->setPlainText("GANA PC");
+                          else
+                             jugadas_mostrar->setPlainText("GANA J2");
+                       }
+               }
+
+          }else jugadas_mostrar->setPlainText("JUGADA \nINVALIDA");
         }
     }
 

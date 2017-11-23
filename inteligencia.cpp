@@ -27,14 +27,14 @@ Casilla *Inteligencia::mejorJugada()
     MyLinkedList<int> *max=new MyLinkedList<int>;
     if(hayMovimientosPosibles!=0){
         for(int i = 0; i < 8; i++) {
-                for(int j = 0; j < 8; j++) {
-                    if(tablero[i][j]->isMovimientoPosible()){
-                        Juego *evaluacion = new Juego(tablero,i,j);
-                        max->agregar(evaluacion->getMejorJugada());
-                        delete evaluacion;
-                    }
+            for(int j = 0; j < 8; j++) {
+                if(tablero[i][j]->isMovimientoPosible()){
+                     Juego *evaluacion = new Juego(tablero,i,j);
+                     max->agregar(evaluacion->getMejorJugada());
+                     delete evaluacion;
+                }
             }
-         }
+        }
 
         int cont=0, posicion=0;
         int mayor=-9999,elemento;
@@ -55,15 +55,13 @@ Casilla *Inteligencia::mejorJugada()
             if(tablero[i][j]->isMovimientoPosible()){
                if(cont2==posicion){
                 mejor_casilla=tablero[i][j];
-                    delete tablero;
-                return mejor_casilla;
-               }
+               }else delete tablero[i][j];
                cont2++;
-             }
+             }else delete tablero[i][j];
           }
         }
-    }else
-        mejor_casilla=NULL;//si no hay jugadas
+
+    }else mejor_casilla=NULL;//si no hay jugadas
 
     return mejor_casilla;
 }
