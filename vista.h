@@ -23,6 +23,7 @@ private:
     QMenu *pestana_juego;
     QAction *nuevoJuego;
     QAction *pistas;
+    QAction *DeshacerJugada;
     QAction *salir;
 
     QMenu *pestana_opciones;
@@ -43,6 +44,7 @@ private slots:
     void slotIaDificil();
     void slotPistas();
     void slotAcercade();
+    void slotJugadaanterior();
 
 };
 

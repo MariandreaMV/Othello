@@ -33,6 +33,11 @@ void Vista::crearAcciones()
     pistas->setStatusTip("Habilitar pistas?");
     connect(pistas, &QAction::triggered, this, &Vista::slotPistas);
 
+    DeshacerJugada = new QAction(tr("Deshacer Jugada"), this);
+    DeshacerJugada->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Z));
+    DeshacerJugada->setStatusTip("Deshaga una jugada realizada por usted");
+    connect(DeshacerJugada, &QAction::triggered, this, &Vista::slotJugadaanterior);
+
     salir = new QAction(tr("S&alir"), this);
     salir->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_W));
     salir->setStatusTip(tr("Salir del juego"));
@@ -70,6 +75,7 @@ void Vista::crearMenus()
     pestana_juego = barra->addMenu(tr("&Juego"));
     pestana_juego->addAction(nuevoJuego);
     pestana_juego->addAction(pistas);
+    pestana_juego->addAction(DeshacerJugada);
     pestana_juego->addSeparator();
     pestana_juego->addAction(salir);
 
@@ -139,6 +145,23 @@ void Vista::slotPistas()
         pistas->setText("Desactivar pistas");
         scene->juego->setMostrarPistas(true);
     }
+    scene->reiniciar();
+}
+
+void Vista::slotJugadaanterior()
+{
+    for (int i = 0; i < TAM; i++) {
+        for (int j = 0; j < TAM; j++) {
+            scene->juego->tablero[i][j] = new Casilla();
+            scene->juego->tablero[i][j]->setEstado(scene->tableroAnterior[i][j]->getEstado());
+            scene->juego->tablero[i][j]->setMovimientoPosible(scene->tableroAnterior[i][j]->isMovimientoPosible());
+            scene->juego->tablero[i][j]->setPosicion(scene->tableroAnterior[i][j]->getFila(),scene->tableroAnterior[i][j]->getColu());
+            scene->juego->tablero[i][j]->setID(scene->tableroAnterior[i][j]->getID());
+        }
+    }
+    if (scene->getOpc() != 1)
+        scene->juego->cambiarTurnos();
+
     scene->reiniciar();
 }
 
