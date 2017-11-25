@@ -6,3 +6,6 @@ Proyecto Final estructura de datos - 2017.
 * **Mariandrea Maldonado** - [MariandreaMV](https://github.com/MariandreaMV)
 * **Pedro Labrador** - [PedroLabrador](https://github.com/PedroLabrador)
 
+## Descarga
+
+[Click Aquí](https://github.com/MariandreaMV/Othello/releases/download/v1.0/OthelloInstaller.exe)
